@@ -1,4 +1,7 @@
-
+"""
+This Julia file contains functions and logic for performing various mathematical operations.
+It includes functions for basic arithmetic, trigonometric calculations, and other utility functions.
+"""
 # [function](https://docs.julialang.org/en/v1/manual/functions/#man-functions-1) to calculate the volume of a sphere
 function sphere_vol(r)
     # julia allows [Unicode names](https://docs.julialang.org/en/v1/manual/unicode-input/#Unicode-Input-1) (in UTF-8 encoding)
