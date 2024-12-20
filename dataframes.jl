@@ -82,6 +82,7 @@ end
 # insert!(df::DataFrame,index::Int64,item::AbstractArray{T,1},name::Symbol)
 # insert random numbers at col 5:
 insertcols!(iris, 5, :randCol => rand(nrow(iris)))
-
+showln(iris)
 # remove it
 select!(iris, Not(:randCol))
+showln(iris)
