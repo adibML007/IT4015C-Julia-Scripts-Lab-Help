@@ -4,12 +4,10 @@
 
 using Plots
 
-# Example function to create a simple plot
-function example_plot()
-    x = 1:10
-    y = rand(10)
-    plot(x, y, title="Example Plot", xlabel="X-axis", ylabel="Y-axis", legend=false)
-end
+# plot some data
+plot([cumsum(rand(500) .- 0.5), cumsum(rand(500) .- 0.5)])
 
-# Call the example plot function to generate the plot
-example_plot()
+# save the current figure
+savefig("plots.svg")
+# .eps, .pdf, & .png are also supported
+# we used svg here because it respects the width and height specified above
