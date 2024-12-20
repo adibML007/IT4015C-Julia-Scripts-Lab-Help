@@ -54,7 +54,8 @@ showln(eltype.(eachcol(iris)))
 # Subset the DataFrame to only include rows for one species
 showln(iris[iris[!, :Species] .== "setosa", :])
 
-
+# Note: The 'by' keyword is not available in this version of Julia. 
+# Consider using an alternative approach to achieve the desired functionality.
 showln(combine(groupby(iris, [:Species]), nrow => :count))
 
 using DataFrames
