@@ -1,7 +1,6 @@
 # This one demonstrates some usages of DataFrames in Julia programming language
 using DataFrames
 showln(x) = (show(x); println())
-
 # A DataFrame is an in-memory database
 df = DataFrame(A = [1, 2], B = [ℯ, π], C = ["xx", "xy"])
 showln(df)
