@@ -14,6 +14,7 @@ showln(df[!, :A])
 
 showln(df[!, 2])
 
+# Showing column B
 showln(df[!, :B])
 
 
