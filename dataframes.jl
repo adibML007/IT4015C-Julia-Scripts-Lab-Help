@@ -10,9 +10,10 @@ showln(df[!, 1])
 
 showln(df[!, :A])
 
-
+# More showings of the columns that we chose
 showln(df[!, 2])
 
+# Showing again
 # Showing column B
 showln(df[!, :B])
 
