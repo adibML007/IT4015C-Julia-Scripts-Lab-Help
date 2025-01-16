@@ -5,7 +5,6 @@ showln(x) = (show(x); println())
 df = DataFrame(A = [1, 2], B = [ℯ, π], C = ["xx", "xy"])
 showln(df)
 
-
 # The columns of a DataFrame can be indexed using numbers or names
 showln(df[!, 1])
 
