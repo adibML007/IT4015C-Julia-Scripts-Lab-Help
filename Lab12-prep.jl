@@ -55,9 +55,6 @@ function calculate_statistics(df)
     # Monthly and quarterly statistics
     monthly_stats = combine(groupby(df, :Month), :Dividend => sum)
     quarterly_stats = combine(groupby(df, :Quarter), :Dividend => sum)
-    println(names(df))
-    # df = select!(df, Not([:Month, :Quarter, :Year]))
-    println(names(df))
     return yearly_stats, monthly_stats, quarterly_stats
 end
 
@@ -79,7 +76,6 @@ Task 5B: Create time series plots for 2D visualizations
 """
 function create_time_series_plots(df, n)
     num_cols = names(df, Real)
-    println(names(df))
     plots = []
     colors = [:blue, :red, :green, :purple, :orange, :brown, :pink, :gray, :cyan]
     
@@ -119,7 +115,6 @@ function main()
     create_visualizations(df)
 
     select!(df, Not([:Year, :Month, :Quarter]))
-    println(names(df))
     create_time_series_plots(df, 100)
 end
 
