@@ -5,21 +5,63 @@ using GLM, DataFramesMeta, Chain
 
 df = DataFrame(CSV.read("sp_500_stock_price.csv", DataFrame))
 
+# Print the original dataframe
+# println(describe(df))
 
-# Original dataframe
-println(df[1:10, ["Dividend", "Earnings", "PE10"]])
 
-# Task 2: Multiple Column Type Conversions
+# Task 2: Multiple Column Type Conversions for practice
 transform!(df,
-    :Dividend => (x -> Float64.(x)) => :Dividend,
+    :"Real Earnings" => (x -> ceil.(x)) => :"Real Earnings",
     :Earnings => (x -> floor.(x)) => :Earnings,
+    :Dividend => (x -> ceil.(x)) => :Dividend,
     :PE10 => (x -> ceil.(x)) => :PE10
 )
-# Transform dataframes
-println(df[1:10, ["Dividend", "Earnings", "PE10"]])
+println(describe(df))
+# Reverse transformation
+# select!(df, Not([:Dividend1, :Earnings1, :PE101]))
+# println(describe(df))
 
+# Get numerical columns
+num_cols = names(df, Real)
 
-# Task 3: Time Series Visualization
+# # Min-max scaling of numerical columns
+for col in num_cols
+    df[!, "$(col)_normalized"] = (df[!, col] .- minimum(df[!, col])) ./ (maximum(df[!, col]) - minimum(df[!, col]))
+end
+
+# Print summary of normalized columns
+println("Normalized columns summary:")
+println(describe(select(df, r"_normalized$")))
+
+# Task 3: Time Series Visualization (Most recent 100 rows by time)
+n = 100
+using Plots
+# Creating X-axis as time
+X = sort(df[1:n, 1], rev=true)
+# Filter data between 2016 and 2022
+df = filter(row -> year(row.Date) >= 2014 && year(row.Date) <= 2022, df)
+# Create subplots for each numerical column
+n_cols = length(num_cols)
+plots = []
+colors = [:blue, :red, :green, :purple, :orange, :brown, :pink, :gray, :cyan]
+for (i, col) in enumerate(num_cols)
+    p = plot(X, df[1:n, col], 
+        seriestype = :line,
+        linewidth = 2,  # Added line weight
+        title = col, 
+        xlabel = "Time", 
+        ylabel = col,
+        legend = false,
+        color = colors[mod1(i, length(colors))])  # Use different color for each plot
+    plot!(xticks = (X[Int.(collect(range(1,n,10)))], string.(X[Int.(collect(range(1,n,10)))])), 
+        xtickfontsize=5)
+    push!(plots, p)
+end
+
+# Arrange all plots in a grid
+final_plot = plot(plots..., layout=(3,3), size=(2400,2400))
+savefig("time-series-all-numericals.png")
+# readline()
 # The original columns :revenue, :sales don't exist in the provided DataFrame
 # We'll use existing columns from the SP500 data
 # @df df plot(:Date, [:Dividend, :PE10],
@@ -60,13 +102,3 @@ println(df[1:10, ["Dividend", "Earnings", "PE10"]])
 # The SP500 dataset has different structure
 
 
-using Plots
-X = sort(df[1:100, 1], rev=true)
-# for i in 2:10
-fig = plot(X, df[1:100, 7], seriestype = :line, title = "Real Earning vs. Time", xlabel = "Time", ylabel = "Real Earning", legend = false)
-# yticks!([-1:1:1;], ["min", "zero", "max"])
-plot!(xticks = (X[Int.(collect(range(1,100,10)))], string.(X[Int.(collect(range(1,100,10)))])), xtickfontsize=5)
-display(fig)
-# savefig("plot.png")
-# end
-readline()
