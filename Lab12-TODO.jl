@@ -10,7 +10,8 @@ function load_and_preprocess_data(filepath)
     
     # Convert numeric columns to Float64
     numeric_columns = ["Real Earnings", "Earnings", "Dividend", "PE10"]
-    # TODO: Complete the conversion of numeric columns to Float64
+    # TODO: Complete the conversion of numeric columns to Float64. Although the columns are already numeric (Float64)
+    # This exercise just demonstrates how to convert any columnn to Float64
     
     return df
 end
