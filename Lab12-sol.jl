@@ -8,10 +8,11 @@ function load_and_preprocess_data(filepath)
     # Load data
     df = DataFrame(CSV.read(filepath, DataFrame))
     
-    # Convert numeric columns to Float64
-    numeric_columns = ["Real Earnings", "Earnings", "Dividend", "PE10"]
+    # Transform numeric columns to 2 significant digits
+    numeric_columns = ["Dividend","Earnings","Consumer Price Index","Long Interest Rate","Real Price","Real Dividend","Real Earnings","PE10"]
     for col in numeric_columns
-        transform!(df, col => (x -> Float64.(x)) => col)
+        # transform!(df, col => (x -> round.(x)) => col)
+        transform!(df, col => (x -> round.(x, digits=2)) => col)
     end
     
     return df

@@ -3,7 +3,6 @@ using DataFrames, CSV, Plots, Dates, Statistics, StatsBase, StatsPlots, GLM, Cha
 
 # Include the name of your file; e.g. Lab12-TODO.jl at line 5 below. If it is the same filename, just uncomment line 5
 # include("lab12-TODO.jl")
-include("lab12-sol.jl")  
 
 @testset "Lab12 Julia ETL and Visualization Tests" begin
     # Setup - load data once for all tests
@@ -12,8 +11,10 @@ include("lab12-sol.jl")
     @testset "Task 1: Data Loading" begin
         @test df_original isa DataFrame
         @test !isempty(df_original)
-        @test all(col -> eltype(df_original[!, col]) == Float64, 
-                ["Real Earnings", "Earnings", "Dividend", "PE10"])
+        
+        # Check decimal precision (2 digits)
+        @test all(col -> all(x -> round(x, digits=2) == x, df_original[!, col]), 
+            ["Dividend","Earnings","Consumer Price Index","Long Interest Rate","Real Price","Real Dividend","Real Earnings","PE10"])
     end
 
     @testset "Task 2: Normalization" begin
@@ -57,6 +58,7 @@ include("lab12-sol.jl")
             @test isfile("time-series-all-numericals.png")
         end
     end
+
 
     @testset "Main Function" begin
         @test_nowarn main()
